@@ -21,15 +21,14 @@
 >
 
 <aside>
-👻
-
-![image.png](..%2F..%2F..%2F..%2FDownloads%2Fimage.png)
-
 화면 구성
+	
+<img width="1195" height="1248" alt="image (2)" src="https://github.com/user-attachments/assets/f94ab94a-b168-43c2-b5ae-cf1786a4ac2d" />
 
-![image.png](..%2F..%2F..%2F..%2FDownloads%2Fimage.png)
 
 어플리케이션 플로우
+
+<img width="1700" height="1209" alt="image" src="https://github.com/user-attachments/assets/848519b0-4b21-46b9-b97d-80689dd2f8df" />
 
 </aside>
 
@@ -37,8 +36,9 @@
 >
 
 <aside>
-👻
-![image (1).png](..%2F..%2F..%2F..%2FDownloads%2Fimage%20%281%29.png)
+
+<img width="1528" height="989" alt="image (1)" src="https://github.com/user-attachments/assets/7c890e3a-3b5c-4d54-b3d8-374b047beab9" />
+
 
 
 레퍼런스
