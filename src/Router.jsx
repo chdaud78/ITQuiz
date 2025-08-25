@@ -5,6 +5,8 @@ import { ROUTES } from '@/lib/routes.js'
 import Home from '@/routes/Home.jsx'
 import Mypage from '@/routes/Mypage.jsx'
 import NotFound from '@/routes/NotFound.jsx'
+import Quiz from "@/routes/quiz/Quiz.jsx";
+import QuizResult from "@/routes/quiz/QuizResult.jsx";
 
 const AppRouters = () => (
   <BrowserRouter>
@@ -12,6 +14,8 @@ const AppRouters = () => (
       <Route path="/" element={<RootLayout />}>
         <Route index element={<Home />} />
         <Route path={ROUTES.MYPAGE.ROOT} element={<Mypage />} />
+        <Route path={ROUTES.QUIZ.ROOT} element={<Quiz />} />
+        <Route path={ROUTES.QUIZ.RESULT} element={<QuizResult />} />
       </Route>
       <Route path={ROUTES.NOT_FOUND} element={<NotFound />}></Route>
     </Routes>

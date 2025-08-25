@@ -3,5 +3,9 @@ export const ROUTES = {
   MYPAGE: {
     ROOT: 'mypage',
   },
+  QUIZ : {
+    ROOT: 'quiz',
+    RESULT: 'quiz/result'
+  },
   NOT_FOUND: '*',
 }
