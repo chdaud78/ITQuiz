@@ -1,25 +1,16 @@
 import { Trophy, History, Brain } from 'lucide-react'
+import StatusCard from "@/components/StatusCard.jsx";
+import {ROUTES} from "@/lib/routes.js";
+import {Link} from "react-router"
 
 export default function Home() {
   return (
     /* 통계 */
     <div className="px-10 md:px-20 lg:px-30">
       <div className=" mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-        <div className="p-5 bg-gray-100 flex flex-col justify-center items-center rounded-sm">
-          <Trophy className="text-blue-500" />
-          <p className="text-blue-500 text-xl text-lg font-bold mt-3">0</p>
-          <p className="text-gray-400 mt-1">총 점수</p>
-        </div>
-        <div className="p-5 bg-gray-100 flex flex-col justify-center items-center rounded-sm">
-          <History className="text-blue-500" />
-          <p className="text-blue-500 text-xl font-bold mt-3">0</p>
-          <p className="text-gray-400 mt-1">총 점수</p>
-        </div>
-        <div className="p-5 bg-gray-100 flex flex-col justify-center items-center rounded-sm">
-          <Brain className="text-blue-500" />
-          <p className="text-blue-500 text-xl font-bold mt-3">0</p>
-          <p className="text-gray-400 mt-1">총 점수</p>
-        </div>
+        <StatusCard icon={Trophy} value="5" text="총 점수"/>
+        <StatusCard icon={History} value="5" text="총 점수"/>
+        <StatusCard icon={Brain} value="5" text="총 점수"/>
       </div>
       {/* 퀴즈 카테고리 */}
       <div className="mt-10 md:mt-20 lg:mt-30">
@@ -49,9 +40,9 @@ export default function Home() {
             </div>
             <h3 className="font-bold mt-5">운영체제</h3>
             <p className="text-gray-500 mt-3">운영체제</p>
-            <button className="w-full bg-white p-3 rounded-sm mt-5  cursor-pointer">
+            <Link to={ROUTES.QUIZ.ROOT} className="block text-center w-full bg-white p-3 rounded-sm mt-5  cursor-pointer">
               시작하기
-            </button>
+            </Link>
           </div>
           <div className="bg-emerald-200 p-5 border-1 border-emerald-500 rounded-sm ">
             <div className="flex justify-between items-start">
