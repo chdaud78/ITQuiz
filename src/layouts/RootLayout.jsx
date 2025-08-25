@@ -2,7 +2,7 @@ import { Suspense } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
 import { Outlet } from 'react-router'
 
-import Layout from '@/components/Layout.jsx'
+import Layout from '@/components/layouts/Layout.jsx'
 
 export default function RootLayout() {
   return (
