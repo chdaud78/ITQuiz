@@ -38,7 +38,7 @@ export default function QuizModal({ setShow }) {
           <select className="w-full border border-gray-300 rounded-md p-2">
             <option value="">카테고리를 선택해 주세요.</option>
             {categories.map((category) => (
-              <option value="" key={category.__id}>
+              <option value="" key={category.name}>
                 {category.name}
               </option>
             ))}
