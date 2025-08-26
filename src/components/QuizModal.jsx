@@ -1,4 +1,22 @@
+import { useEffect, useState } from 'react'
+
+import { categoryApi } from '@/api/category.js'
+
 export default function QuizModal({ setShow }) {
+  const [categories, setCategory] = useState([])
+
+  useEffect(() => {
+    categoryApi
+      .get()
+      .then((res) => {
+        console.log(res.data)
+        setCategory(res.data)
+      })
+      .catch((e) => {
+        console.error(e)
+      })
+  }, [])
+
   return (
     <div
       className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2
@@ -17,7 +35,14 @@ export default function QuizModal({ setShow }) {
         </div>
         <div>
           <label className="block font-medium mb-1">퀴즈 카테고리</label>
-          <select className="w-full border border-gray-300 rounded-md p-2" />
+          <select className="w-full border border-gray-300 rounded-md p-2">
+            <option value="">카테고리를 선택해 주세요.</option>
+            {categories.map((category) => (
+              <option value="" key={category.__id}>
+                {category.name}
+              </option>
+            ))}
+          </select>
         </div>
         <div>
           <label className="block font-medium mb-1">퀴즈 종류</label>

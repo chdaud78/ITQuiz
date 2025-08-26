@@ -1,4 +1,25 @@
+import { useState } from 'react'
+
+import { categoryApi } from '@/api/category.js'
+
 export default function CategoryModal({ setShow }) {
+  const [name, setName] = useState('')
+  const [description, setDescription] = useState('')
+
+  const handleCategory = async () => {
+    await categoryApi
+      .create({
+        name,
+        description,
+      })
+      .then((res) => {
+        console.log(res)
+      })
+      .catch((e) => {
+        console.error(e)
+      })
+  }
+
   return (
     <div
       className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2
@@ -13,14 +34,24 @@ export default function CategoryModal({ setShow }) {
       <div className="space-y-4">
         <div>
           <label className="block font-medium mb-1">카테고리 이름</label>
-          <input className="w-full border border-gray-300 rounded-md p-2" type="text" />
+          <input
+            onChange={(e) => setName(e.target.value)}
+            className="w-full border border-gray-300 rounded-md p-2"
+            type="text"
+          />
         </div>
         <div>
           <label className="block font-medium mb-1">카테고리 설명</label>
-          <textarea className="w-full border border-gray-300 rounded-md p-2" />
+          <textarea
+            onChange={(e) => setDescription(e.target.value)}
+            className="w-full border border-gray-300 rounded-md p-2"
+          />
         </div>
       </div>
-      <button className="w-full py-3 mt-7 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-lg shadow-md transition duration-200">
+      <button
+        onClick={handleCategory}
+        className="w-full py-3 mt-7 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-lg shadow-md transition duration-200"
+      >
         생성
       </button>
     </div>
