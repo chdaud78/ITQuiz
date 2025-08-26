@@ -32,7 +32,10 @@ export default function QuizModal({ setShow }) {
       <div className="space-y-4">
         <div>
           <label className="block font-medium mb-1">퀴즈 내용</label>
-          <textarea className="w-full border border-gray-300 rounded-md p-2" />
+          <textarea
+            placeholder="퀴즈를 적어주세요."
+            className="w-full border border-gray-300 rounded-md p-2"
+          />
         </div>
         <div>
           <label className="block font-medium mb-1">퀴즈 카테고리</label>
@@ -56,16 +59,40 @@ export default function QuizModal({ setShow }) {
         <div>
           <label className="block font-medium mb-1">퀴즈 객관식 문제 구성</label>
           <div className="space-y-2">
-            <input className="w-full border border-gray-300 rounded-md p-2" type="text" />
-            <input className="w-full border border-gray-300 rounded-md p-2" type="text" />
-            <input className="w-full border border-gray-300 rounded-md p-2" type="text" />
-            <input className="w-full border border-gray-300 rounded-md p-2" type="text" />
-            <input className="w-full border border-gray-300 rounded-md p-2" type="text" />
+            <input
+              className="w-full border border-gray-300 rounded-md p-2"
+              placeholder="문제를 적어주세요."
+              type="text"
+            />
+            <input
+              className="w-full border border-gray-300 rounded-md p-2"
+              placeholder="문제를 적어주세요."
+              type="text"
+            />
+            <input
+              className="w-full border border-gray-300 rounded-md p-2"
+              placeholder="문제를 적어주세요."
+              type="text"
+            />
+            <input
+              className="w-full border border-gray-300 rounded-md p-2"
+              placeholder="문제를 적어주세요."
+              type="text"
+            />
+            <input
+              className="w-full border border-gray-300 rounded-md p-2"
+              placeholder="문제를 적어주세요."
+              type="text"
+            />
           </div>
         </div>
         <div>
           <label className="block font-medium mb-1">퀴즈 점수 구성</label>
-          <input className="w-full border border-gray-300 rounded-md p-2" type="number" />
+          <input
+            className="w-full border border-gray-300 rounded-md p-2"
+            placeholder="점수를 적어주세요."
+            type="number"
+          />
         </div>
       </div>
       <button className="w-full py-3 mt-7 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-lg shadow-md transition duration-200">

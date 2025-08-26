@@ -13,8 +13,11 @@ export default function CategoryModal({ setShow }) {
         name,
         description,
       })
-      .then((res) => {
-        console.log(res)
+      .then(() => {
+        alert('카테고리가 추가되었습니다.')
+        setShow(false)
+        setName('')
+        setDescription('')
       })
       .catch((e) => {
         console.error(e)
@@ -38,12 +41,14 @@ export default function CategoryModal({ setShow }) {
           <input
             onChange={(e) => setName(e.target.value)}
             className="w-full border border-gray-300 rounded-md p-2"
+            placeholder="카테고리 이름을 적어주세요."
             type="text"
           />
         </div>
         <div>
           <label className="block font-medium mb-1">카테고리 설명</label>
           <textarea
+            placeholder="카테고리 설명을 적어주세요."
             onChange={(e) => setDescription(e.target.value)}
             className="w-full border border-gray-300 rounded-md p-2"
           />
