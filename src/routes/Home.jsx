@@ -1,16 +1,17 @@
 import { Trophy, History, Brain } from 'lucide-react'
-import StatusCard from "@/components/StatusCard.jsx";
-import {ROUTES} from "@/lib/routes.js";
-import {Link} from "react-router"
+import { Link } from 'react-router'
+
+import StatusCard from '@/components/StatusCard.jsx'
+import { ROUTES } from '@/lib/routes.js'
 
 export default function Home() {
   return (
     /* 통계 */
-    <div className="px-10 md:px-20 lg:px-30">
+    <div className="container mx-auto p-4 space-y-6">
       <div className=" mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-        <StatusCard icon={Trophy} value="5" text="총 점수"/>
-        <StatusCard icon={History} value="5" text="총 점수"/>
-        <StatusCard icon={Brain} value="5" text="총 점수"/>
+        <StatusCard icon={Trophy} value="5" text="총 점수" />
+        <StatusCard icon={History} value="5" text="총 점수" />
+        <StatusCard icon={Brain} value="5" text="총 점수" />
       </div>
       {/* 퀴즈 카테고리 */}
       <div className="mt-10 md:mt-20 lg:mt-30">
@@ -40,7 +41,10 @@ export default function Home() {
             </div>
             <h3 className="font-bold mt-5">운영체제</h3>
             <p className="text-gray-500 mt-3">운영체제</p>
-            <Link to={ROUTES.QUIZ.ROOT} className="block text-center w-full bg-white p-3 rounded-sm mt-5  cursor-pointer">
+            <Link
+              to={ROUTES.QUIZ.ROOT}
+              className="block text-center w-full bg-white p-3 rounded-sm mt-5  cursor-pointer"
+            >
               시작하기
             </Link>
           </div>
