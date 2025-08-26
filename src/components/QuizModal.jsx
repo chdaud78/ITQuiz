@@ -1,3 +1,4 @@
+import { X } from 'lucide-react'
 import { useEffect, useState } from 'react'
 
 import { categoryApi } from '@/api/category.js'
@@ -25,7 +26,7 @@ export default function QuizModal({ setShow }) {
       <div className="flex justify-between items-center mb-4">
         <h3 className="text-xl font-bold">퀴즈 추가</h3>
         <button className="text-xl" onClick={() => setShow(false)}>
-          x
+          <X className="cursor-pointer" />
         </button>
       </div>
       <div className="space-y-4">
