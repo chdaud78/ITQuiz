@@ -1,11 +1,13 @@
 export const ROUTES = {
   HOME: '/',
-  MYPAGE: {
-    ROOT: 'mypage',
+  AUTH: {
+    LOGIN: '/login',
+    REGISTER: '/register',
+    MYPAGE: '/mypage',
   },
-  QUIZ : {
+  QUIZ: {
     ROOT: 'quiz',
-    RESULT: 'quiz/result'
+    RESULT: 'quiz/result',
   },
   NOT_FOUND: '*',
 }
