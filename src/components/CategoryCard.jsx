@@ -48,7 +48,7 @@ export default function CategoryCard({ category, index }) {
         <div className="rounded-sm p-3 bg-white">
           <IconComponent className="text-red-200 w-6 h-6" />
         </div>
-        <span className="text-sm text-gray-300 bg-white block px-3 py-1 rounded-xl">5문제</span>
+        <span className="text-sm text-gray-300 bg-white block px-3 py-1 rounded-xl">10문제</span>
       </div>
 
       <h3 className="font-bold mt-5">{category.name}</h3>
