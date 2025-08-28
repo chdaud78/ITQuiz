@@ -21,8 +21,8 @@ const AppRouters = () => (
           <Route path={ROUTES.AUTH.MYPAGE} element={<Mypage />} />
         </Route>
         <Route index element={<Home />} />
-        <Route path={ROUTES.QUIZ.ROOT} element={<Quiz />} />
-        <Route path={ROUTES.QUIZ.RESULT} element={<QuizResult />} />
+        <Route path={`${ROUTES.QUIZ.ROOT}/:sessionId`} element={<Quiz />} />
+        <Route path={`${ROUTES.QUIZ.RESULT}/:sessionId`} element={<QuizResult />} />
       </Route>
       <Route path={ROUTES.NOT_FOUND} element={<NotFound />} />
     </Routes>

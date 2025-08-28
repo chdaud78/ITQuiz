@@ -1,6 +1,10 @@
 import { Brain, History, Trophy, Activity, Book, Library, Star, Files, Laptop } from 'lucide-react'
+import { useNavigate } from 'react-router'
+
+import { categoryApi } from '@/api/category.js'
 
 export default function CategoryCard({ category, index }) {
+  const navigate = useNavigate()
   const icons = [Brain, History, Trophy, Activity, Book, Library, Star, Files, Laptop]
   const bgColors = [
     'bg-red-200',
@@ -39,6 +43,16 @@ export default function CategoryCard({ category, index }) {
 
   const IconComponent = icons[index % icons.length]
 
+  const quizStart = async () => {
+    try {
+      const res = await categoryApi.startSession({ categoryId: category._id })
+      const sessionId = res.data._id
+      navigate(`/quiz/${sessionId}`)
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
   return (
     <div
       className={`p-5 border rounded-sm ${bgColors[index]} ${brColors[index]}`}
@@ -54,7 +68,9 @@ export default function CategoryCard({ category, index }) {
       <h3 className="font-bold mt-5">{category.name}</h3>
       <p className="flex-1 text-gray-500 mt-3 line-clamp-3">{category.description}</p>
 
-      <button className="w-full bg-white p-3 rounded-sm mt-5 cursor-pointer">시작하기</button>
+      <button onClick={quizStart} className="w-full bg-white p-3 rounded-sm mt-5 cursor-pointer">
+        시작하기
+      </button>
     </div>
   )
 }

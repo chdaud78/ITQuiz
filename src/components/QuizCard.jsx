@@ -1,34 +1,76 @@
-import {useState} from "react";
+import { useState } from 'react'
 
-export default function QuizCard () {
-  const [selected, setSelected] = useState(null)
+export default function QuizCard({ quiz, onSubmit, showAnswer, nextQuiz }) {
+  const [selected, setSelected] = useState([])
 
-  const options = [
-    {key: "A", text: "이것"},
-    {key: "B", text: "저것"},
-    {key: "C", text: "요것"},
-    {key: "D", text: "몰라것"},
-  ]
+  const toggleOption = (optId) => {
+    if (selected.includes(optId)) {
+      setSelected(selected.filter((id) => id !== optId))
+    } else {
+      setSelected([...selected, optId])
+    }
+  }
+
+  const handleSubmit = () => {
+    if (selected.length === 0) {
+      return
+    }
+    onSubmit(selected.map((id) => id.toString()))
+  }
+  const handleNext = () => {
+    setSelected([])
+    nextQuiz()
+  }
 
   return (
     <div className="mt-5 p-5 border-1 rounded-sm">
-      <h3 className="text-xl font-bold text-center">운영체제에서 이것은 무엇인가요?</h3>
-      <div className="mt-5">
-        {options.map((opt) => (
-          <div
-            key={opt.key}
-            onClick={() => setSelected(opt.key)}
-               className={`flex mt-3 p-5 border rounded-sm cursor-pointer transition 
-              ${selected === opt.key ? "bg-blue-100 border-blue-400" : "hover:bg-gray-50"}`}>
-            <p className="text-blue-500 font-bold">{opt.key}.</p>
-            <p className="ml-5">{opt.text}</p>
+      <h3 className="text-xl font-bold text-center">{quiz.context}</h3>
+      <div className="mt-5 space-y-3">
+        {quiz.options.map((opt, idx) => {
+          const isSelected = selected.includes(opt._id)
+          const isCorrect = showAnswer && opt.isCorrect
+          const isWrong = showAnswer && isSelected && !opt.isCorrect
+
+          return (
+            <div
+              key={opt._id}
+              onClick={() => !showAnswer && toggleOption(opt._id)}
+              className={`p-4 border rounded cursor-pointer transition
+                ${isSelected ? 'bg-blue-100 border-blue-400' : 'hover:bg-gray-50'}
+                ${isCorrect ? 'bg-green-100 border-green-500' : ''}
+                ${isWrong ? 'bg-red-100 border-red-500' : ''}
+              `}
+            >
+              <span className="font-bold mr-2">{idx + 1}.</span>
+              {opt.text}
+            </div>
+          )
+        })}
+      </div>
+      {!showAnswer && (
+        <div className="mt-6">
+          <button onClick={handleSubmit} className="w-full py-3 bg-blue-500 text-white rounded">
+            제출
+          </button>
+        </div>
+      )}
+
+      {showAnswer && (
+        <div>
+          <p className="mt-4 text-green-600">
+            정답:{' '}
+            {quiz.options
+              .filter((o) => o.isCorrect)
+              .map((o) => o.text)
+              .join(', ')}
+          </p>
+          <div className="mt-6">
+            <button onClick={handleNext} className="w-full py-3 bg-blue-500 text-white rounded">
+              다음
+            </button>
           </div>
-        ))}
-      </div>
-      <div className="mt-10 grid grid-cols-2 gap-3">
-        <button className="border-1 py-3 bg-gray-100">이전</button>
-        <button className="border-1 py-3 bg-blue-500 text-white">다음</button>
-      </div>
+        </div>
+      )}
     </div>
   )
 }
