@@ -8,13 +8,13 @@ export default function QuizTimer({ onTimeUpdate }) {
     const timer = setInterval(() => {
       setSeconds((prev) => {
         const newSeconds = prev + 1
-        onTimeUpdate(newSeconds)
+        onTimeUpdate?.(newSeconds)
         return newSeconds
       })
     }, 1000)
 
     return () => clearInterval(timer)
-  }, [])
+  }, [onTimeUpdate])
 
   const formatTime = (sec) => {
     const m = Math.floor(sec / 60)

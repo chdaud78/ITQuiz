@@ -1,5 +1,5 @@
 import { Brain, History, Trophy, Activity, Book, Library, Star, Files, Laptop } from 'lucide-react'
-import { useNavigate } from 'react-router'
+import { useNavigate } from 'react-router-dom'
 
 import { categoryApi } from '@/api/category.js'
 
@@ -47,6 +47,10 @@ export default function CategoryCard({ category, index }) {
     try {
       const res = await categoryApi.startSession({ categoryId: category._id })
       const sessionId = res.data._id
+      if (!sessionId || !res.data.quizIds || res.data.quizIds.length === 0) {
+        alert('퀴즈가 존재하지 않습니다.')
+        return
+      }
       navigate(`/quiz/${sessionId}`)
     } catch (err) {
       console.error(err)

@@ -13,7 +13,7 @@ export default function Quiz() {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [showAnswer, setShowAnswer] = useState(false)
   const [answers, setAnswers] = useState([])
-  const [timeTaken, setTimeTaken] = useState(0) // ⬅ 타이머 초
+  const [timeTaken, setTimeTaken] = useState(0)
 
   useEffect(() => {
     async function fetchSession() {

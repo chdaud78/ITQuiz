@@ -8,5 +8,11 @@ export const auth = {
     return response
   },
   register: async (payload, opts) => await api.post('/auth/register', payload, { auth: false }),
-  logout: async (payload, pots) => await api.post('/auth/logout', payload, { auth: false }),
+  logout: async () => {
+    try {
+      await api.post('/auth/logout', {}, { auth: true })
+    } finally {
+      token.clear()
+    }
+  },
 }
