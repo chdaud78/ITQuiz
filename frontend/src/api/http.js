@@ -9,14 +9,25 @@ export const api = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
+  withCredentials: true,
 })
 
 api.interceptors.response.use(
   (response) => response,
-  (error) => {
-    // 로그인 시도 실패, 토큰 정보 삭제
-    if (error.response?.status === 401) {
-      token.clear()
+  async (error) => {
+    const originalRequest = error.config
+    if (error.response?.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true
+      try {
+        const res = await axios.post(`${BASEURL}/auth/refresh`, {}, { withCredentials: true })
+        token.set(res.data.token)
+
+        originalRequest.headers.Authorization = `Bearer ${res.data.token}`
+        return axios(originalRequest)
+      } catch (refreshErr) {
+        token.clear()
+        return Promise.reject(refreshErr)
+      }
     }
 
     return Promise.reject(error)

@@ -68,6 +68,14 @@ export default function Mypage() {
     fetchStats()
   }, [hasToken])
 
+  const formatDate = (date) => {
+    const d = new Date(date)
+    const yyyy = d.getFullYear()
+    const mm = String(d.getMonth() + 1).padStart(2, '0')
+    const dd = String(d.getDate()).padStart(2, '0')
+    return `${yyyy}-${mm}-${dd}`
+  }
+
   return (
     <div className="container mx-auto p-4 space-y-6">
       {/* 문제 및 카테고리 추가 */}
@@ -93,14 +101,18 @@ export default function Mypage() {
         <div>
           <p className="font-bold text-xl">{myProfile.name}</p>
           <p className="text-sm text-gray-500 mt-2">{myProfile.email}</p>
-          <p className="text-sm text-gray-500 mt-1">가입일 : {myProfile.createdAt}</p>
+          <p className="text-sm text-gray-500 mt-1">가입일 : {formatDate(myProfile.createdAt)}</p>
         </div>
       </div>
       {/* 전체 통계 */}
       <div className="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
         <StatusCard icon={Trophy} value={myStats.totalScore} text="총 점수" />
         <StatusCard icon={History} value={myStats.completedQuizzes} text="완료한 퀴즈" />
-        <StatusCard icon={Brain} value={myStats.avgCorrectRate} text="평균 정답률" />
+        <StatusCard
+          icon={Brain}
+          value={`${Math.floor(myStats.avgCorrectRate)}%`}
+          text="평균 정답률"
+        />
         <StatusCard icon={Calendar} value={myStats.totalAttempts} text="총 시도횟수" />
       </div>
       {/* 메뉴 */}
