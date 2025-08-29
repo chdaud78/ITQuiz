@@ -28,9 +28,30 @@ router.post("/category", async (req, res) => {
 
 // 조회
 router.get("/categories", async (req, res) => {
+  try {
+    // 모든 카테고리 조회
     const categories = await Category.find()
+
+    // 각 카테고리별 퀴즈 개수 조회
+    const categoriesWithCount = await Promise.all(
+      categories.map(async (cat) => {
+        const quizCount = await Quiz.countDocuments({ category: cat._id })
+        return {
+          _id: cat._id,
+          name: cat.name,
+          description: cat.description,
+          quizCount,
+        }
+      })
+    )
     if (!categories) return res.status(404).json({ message: "Not found" });
-    res.json(categories)
+    res.json(categoriesWithCount)
+  } catch (e) {
+    console.error(e)
+    res.status(500).json({ error: "Server error" })
+  }
+
+
 })
 
 /* =========================

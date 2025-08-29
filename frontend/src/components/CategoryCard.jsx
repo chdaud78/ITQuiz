@@ -66,11 +66,15 @@ export default function CategoryCard({ category, index }) {
         <div className="rounded-sm p-3 bg-white">
           <IconComponent className="text-red-200 w-6 h-6" />
         </div>
-        <span className="text-sm text-gray-300 bg-white block px-3 py-1 rounded-xl">10문제</span>
+        <span className="text-sm text-gray-300 bg-white block px-3 py-1 rounded-xl">
+          총 {category.quizCount}문제
+        </span>
       </div>
 
       <h3 className="font-bold mt-5">{category.name}</h3>
-      <p className="flex-1 text-gray-500 mt-3 line-clamp-3">{category.description}</p>
+      <p className="flex-1 text-gray-500 mt-3 line-clamp-3 min-h-[4.5rem]">
+        {category.description}
+      </p>
 
       <button onClick={quizStart} className="w-full bg-white p-3 rounded-sm mt-5 cursor-pointer">
         시작하기
