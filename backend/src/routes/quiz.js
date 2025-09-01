@@ -235,4 +235,37 @@ router.get("/user/stats", requireAuth,async (req, res) => {
   }
 })
 
+/* =========================
+        최근 퀴즈 기록
+========================= */
+router.get("/user/history", requireAuth, async (req, res) => {
+  try {
+    const userId = req.user.sub
+
+    const sessions = await QuizSession.find({ user: userId, finished: true })
+    .populate("category")
+    .sort({ createdAt: -1 })
+    .limit(5)
+
+    const history = sessions.map((s) => {
+      const correct = s.attempts.filter((a) => a.isCorrect).length
+      const total = s.quizIds.length
+      const scoreRate = total > 0 ? Math.round((correct / total) * 100) : 0
+
+      return {
+        id: s._id,
+        category: s.category.name,
+        date: s.createdAt,
+        correct: `${correct}/${total}`,
+        rate: `${scoreRate}%`,
+      }
+    })
+
+    res.json(history)
+  } catch (e) {
+    console.error(e)
+    res.status(500).json({ error: "Server error" })
+  }
+})
+
 export default router
