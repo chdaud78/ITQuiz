@@ -12,7 +12,6 @@ export default function QuizResult() {
   useEffect(() => {
     quizApi.getResult(sessionId).then((res) => {
       setResult(res.data)
-      console.log(res.data)
     })
   }, [sessionId])
 

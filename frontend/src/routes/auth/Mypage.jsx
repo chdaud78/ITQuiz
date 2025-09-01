@@ -52,7 +52,6 @@ export default function Mypage() {
       }
       try {
         const res = await me.getStats()
-        console.log(res)
 
         setMyStats({
           totalScore: res.data.totalScore || 0,

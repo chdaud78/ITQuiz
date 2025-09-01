@@ -85,7 +85,6 @@ router.post("/quiz/session/start", requireAuth, async (req, res) => {
     const {categoryId} = req.body;
     const {sub: userId} = req.user;
 
-    // 카테고리 내 문제 10개 랜덤 추출
     const quizzes = await Quiz.aggregate([
       {$match: {category: new mongoose.Types.ObjectId(categoryId)}},
       {$sample: {size: 3}}
@@ -158,34 +157,30 @@ router.post("/quiz/session/:sessionId/submit", requireAuth, async (req, res) => 
     .filter(o => o.isCorrect)
     .map(o => o._id.toString());
 
-    // answer는 문자열 배열이어야 함
     const answerIds = answer.map(a => a.toString());
 
-    // 순서 상관없이 비교
     isCorrect =
       correctIds.length === answerIds.length &&
       correctIds.every((id) => answerIds.includes(id));
   }
   const score = isCorrect ? quiz.maxScore : 0;
-  // 1️⃣ 세션 기록
   session.attempts.push({
     quiz: quiz._id,
     isCorrect,
     score,
-    timeTaken, // 시간 저장
+    timeTaken,
   });
   session.currentIndex += 1;
   if (session.currentIndex >= session.quizIds.length) session.finished = true;
   await session.save();
 
-  // 2️⃣ QuizAttempt 컬렉션에도 저장
   await QuizAttempt.create({
     user: userId,
     quiz: quiz._id,
     isCorrect,
     score,
     timeTaken,
-    session: sessionId, // 선택사항: 어떤 세션에서 푼 건지
+    session: sessionId,
   });
 
 
