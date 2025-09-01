@@ -6,15 +6,15 @@ export default function QuizTimer({ onTimeUpdate }) {
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setSeconds((prev) => {
-        const newSeconds = prev + 1
-        onTimeUpdate?.(newSeconds)
-        return newSeconds
-      })
+      setSeconds((prev) => prev + 1)
     }, 1000)
 
     return () => clearInterval(timer)
-  }, [onTimeUpdate])
+  }, [])
+
+  useEffect(() => {
+    onTimeUpdate?.(seconds)
+  }, [seconds, onTimeUpdate])
 
   const formatTime = (sec) => {
     const m = Math.floor(sec / 60)

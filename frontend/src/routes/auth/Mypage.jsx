@@ -18,7 +18,7 @@ export default function Mypage() {
   const [myProfile, setMyProfile] = useState({ id: '', name: '', email: '', createdAt: '' })
   const [myStats, setMyStats] = useState({
     totalScore: 0,
-    completedQuizzes: 0,
+    completedSessions: 0,
     totalAttempts: 0,
     avgCorrectRate: 0,
   })
@@ -52,10 +52,11 @@ export default function Mypage() {
       }
       try {
         const res = await me.getStats()
+        console.log(res)
 
         setMyStats({
           totalScore: res.data.totalScore || 0,
-          completedQuizzes: res.data.completedQuizzes || 0,
+          completedSessions: res.data.completedSessions || 0,
           totalAttempts: res.data.totalAttempts || 0,
           avgCorrectRate: res.data.avgCorrectRate || 0,
         })
@@ -107,7 +108,7 @@ export default function Mypage() {
       {/* 전체 통계 */}
       <div className="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
         <StatusCard icon={Trophy} value={myStats.totalScore} text="총 점수" />
-        <StatusCard icon={History} value={myStats.completedQuizzes} text="완료한 퀴즈" />
+        <StatusCard icon={History} value={myStats.completedSessions} text="완료한 퀴즈" />
         <StatusCard
           icon={Brain}
           value={`${Math.floor(myStats.avgCorrectRate)}%`}

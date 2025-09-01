@@ -88,7 +88,7 @@ router.post("/quiz/session/start", requireAuth, async (req, res) => {
     // 카테고리 내 문제 10개 랜덤 추출
     const quizzes = await Quiz.aggregate([
       {$match: {category: new mongoose.Types.ObjectId(categoryId)}},
-      {$sample: {size: 10}}
+      {$sample: {size: 3}}
     ]);
 
     const session = await QuizSession.create({
@@ -201,7 +201,8 @@ router.get("/quiz/session/:sessionId/result", requireAuth, async (req, res) => {
 
   const totalScore = session.attempts.reduce((sum, a) => sum + a.score, 0);
   const correct = session.attempts.filter(a => a.isCorrect).length;
-  const totalTime = session.attempts.reduce((sum, a) => sum + a.timeTaken, 0);
+  const lastAttempt = session.attempts[session.attempts.length - 1];
+  const totalTime = lastAttempt ? lastAttempt.timeTaken : 0;
 
   res.json({ totalScore, correct, totalTime, attempts: session.attempts });
 });
@@ -221,11 +222,17 @@ router.get("/user/stats", requireAuth,async (req, res) => {
     const totalScore = attempts.reduce((sum, a) => sum + a.score, 0)
     const avgCorrectRate = totalAttempts > 0 ? (correct / totalAttempts) * 100 : 0
 
+    const completedSessions = await QuizSession.countDocuments({
+      user: userId,
+      finished: true,
+    })
+
     res.json({
       totalAttempts,
       correct,
       totalScore,
       avgCorrectRate,
+      completedSessions,
     })
   } catch (e) {
     console.error(e)

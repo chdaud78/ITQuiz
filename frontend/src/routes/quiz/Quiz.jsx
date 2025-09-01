@@ -18,7 +18,7 @@ export default function Quiz() {
   useEffect(() => {
     async function fetchSession() {
       const res = await quizApi.getSession(sessionId)
-      setSession(res.data) // quizzes: 10문제 배열
+      setSession(res.data)
     }
     fetchSession()
   }, [sessionId])
@@ -31,7 +31,6 @@ export default function Quiz() {
 
   const handleSubmit = async (answer) => {
     const res = await quizApi.submit(sessionId, { answer, timeTaken }) // timeTaken 계산 가능
-
     setAnswers([
       ...answers,
       {
@@ -46,7 +45,7 @@ export default function Quiz() {
 
   const nextQuiz = () => {
     if (currentIndex + 1 >= session.quizzes.length) {
-      navigate(`/quiz/result/${sessionId}`, { state: { answers } })
+      navigate(`/quiz/result/${sessionId}`)
     } else {
       setCurrentIndex(currentIndex + 1)
       setShowAnswer(false)
