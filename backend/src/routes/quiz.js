@@ -50,8 +50,6 @@ router.get("/categories", async (req, res) => {
     console.error(e)
     res.status(500).json({error: "Server error"})
   }
-
-
 })
 
 /* =========================
@@ -277,7 +275,8 @@ router.get("/user/category-stats", requireAuth, async (req, res) => {
     const statsMap = new Map()
 
     sessions.forEach((s) => {
-      const categoryId = s.category._id.toString()
+      const categoryId = s.category?._id?.toString()
+      if (!categoryId) return
 
       if (!statsMap.has(categoryId)) {
         statsMap.set(categoryId, {
@@ -285,7 +284,7 @@ router.get("/user/category-stats", requireAuth, async (req, res) => {
           completed: 0,
           totalCorrect: 0,
           totalQuestions: 0,
-          bestScore: 0,
+          totalScore: 0,
         })
       }
 
@@ -293,11 +292,10 @@ router.get("/user/category-stats", requireAuth, async (req, res) => {
       stat.completed += 1
       const correct = s.attempts.filter((a) => a.isCorrect).length
       const total = s.quizIds.length
+      const totalScore = s.attempts.reduce((acc, a) => acc + (a.score || 0) , 0)
       stat.totalCorrect += correct
       stat.totalQuestions += total
-      if (correct > stat.bestScore) {
-        stat.bestScore = correct
-      }
+      stat.totalScore += totalScore
     })
 
     const result = Array.from(statsMap.values()).map((s) => {
@@ -308,7 +306,7 @@ router.get("/user/category-stats", requireAuth, async (req, res) => {
         completed: s.completed,
         correctRate: rate,
         total: s.totalQuestions,
-        bestScore: s.bestScore
+        totalScore: s.totalScore
       }
     })
     res.json(result)
@@ -316,8 +314,6 @@ router.get("/user/category-stats", requireAuth, async (req, res) => {
     console.error(e)
     res.status(500).json({error: "Server error"})
   }
-
-
 })
 
 export default router

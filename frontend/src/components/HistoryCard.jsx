@@ -31,7 +31,7 @@ export default function HistoryCard() {
       <div className="mt-5">
         {histories.map((history, idx) => (
           <div
-            key={history._id}
+            key={idx}
             className={`mt-3 pb-3 flex justify-between items-center ${idx !== histories.length - 1 ? 'border-b-1' : ''}`}
           >
             <div>
