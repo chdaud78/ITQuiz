@@ -56,8 +56,6 @@ export default function QuizModal({ setShow }) {
       options: form.options.filter((o) => o.text.trim() !== ''),
     }
 
-    console.log(payload)
-
     quizApi
       .create(payload)
       .then(() => {

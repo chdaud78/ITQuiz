@@ -10,7 +10,6 @@ export default function CategoryStatusCard() {
       try {
         const res = await me.getCHistory()
         setStats(res.data)
-        console.log(res)
       } catch (e) {
         console.error(e)
       }
