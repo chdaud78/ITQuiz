@@ -208,23 +208,30 @@ router.get("/user/stats", requireAuth, async (req, res) => {
     const userId = req.user.sub
     if (!userId) return res.status(401).json({error: "Unauthorized"})
 
-    const attempts = await QuizAttempt.find({user: userId})
+    /* 세션 */
+    const sessions = await QuizSession.find({ user: userId, finished: true }).select("_id quizIds");
+    const sessionIds = sessions.map(s => s._id)
+
+    /* 세션 내 attempt */
+    const attempts = await QuizAttempt.find({
+      user: userId,
+      session: { $in: sessionIds },
+    })
+
+
     const totalAttempts = attempts.length
-    const correct = attempts.filter(a => a.isCorrect).length
-    const totalScore = attempts.reduce((sum, a) => sum + a.score, 0)
+    const correct =  attempts.filter(a => a.isCorrect).length
+    const totalScore = attempts.reduce((sum, a) => sum + (a.score || 0), 0)
     const avgCorrectRate = totalAttempts > 0 ? (correct / totalAttempts) * 100 : 0
 
-    const completedSessions = await QuizSession.countDocuments({
-      user: userId,
-      finished: true,
-    })
+    const completedQuiz = sessions.reduce((acc, s) => acc + (s.quizIds?.length || 0), 0);
 
     res.json({
       totalAttempts,
       correct,
       totalScore,
       avgCorrectRate,
-      completedSessions,
+      completedQuiz,
     })
   } catch (e) {
     console.error(e)
@@ -268,51 +275,63 @@ router.get("/user/history", requireAuth, async (req, res) => {
 router.get("/user/category-stats", requireAuth, async (req, res) => {
   try {
     const userId = req.user.sub
-    if (!userId) return res.status(401).json({error: "Unauthorized"})
+    if (!userId) return res.status(401).json({ error: "Unauthorized" })
 
-    const sessions = await QuizSession.find({user: userId, finished: true}).populate("category")
+    const sessions = await QuizSession.find({ user: userId, finished: true })
+    .populate("category")
+
+    const sessionIds = sessions.map(s => s._id)
+    const attempts = await QuizAttempt.find({
+      user: userId,
+      session: { $in: sessionIds }
+    }).populate({
+      path: "quiz",
+      select: "category maxScore",
+      populate: { path: "category", select: "name" }
+    })
 
     const statsMap = new Map()
 
-    sessions.forEach((s) => {
-      const categoryId = s.category?._id?.toString()
-      if (!categoryId) return
-
-      if (!statsMap.has(categoryId)) {
-        statsMap.set(categoryId, {
-          category: s.category.name,
-          completed: 0,
+    sessions.forEach(s => {
+      const category = s.category
+      if (!category) return
+      const catId = category._id.toString()
+      if (!statsMap.has(catId)) {
+        statsMap.set(catId, {
+          category: category.name,
+          completedQuizzes: 0,
           totalCorrect: 0,
           totalQuestions: 0,
-          totalScore: 0,
+          totalScore: 0
         })
       }
-
-      const stat = statsMap.get(categoryId)
-      stat.completed += 1
-      const correct = s.attempts.filter((a) => a.isCorrect).length
-      const total = s.quizIds.length
-      const totalScore = s.attempts.reduce((acc, a) => acc + (a.score || 0) , 0)
-      stat.totalCorrect += correct
-      stat.totalQuestions += total
-      stat.totalScore += totalScore
+      const stat = statsMap.get(catId)
+      stat.completedQuizzes += s.quizIds.length
     })
 
-    const result = Array.from(statsMap.values()).map((s) => {
-      const rate = s.totalQuestions > 0 ? Math.round((s.totalCorrect / s.totalQuestions) * 100) : 0
-
-      return {
-        category: s.category,
-        completed: s.completed,
-        correctRate: rate,
-        total: s.totalQuestions,
-        totalScore: s.totalScore
-      }
+    attempts.forEach(a => {
+      const category = a.quiz?.category
+      if (!category) return
+      const catId = category._id.toString()
+      if (!statsMap.has(catId)) return
+      const stat = statsMap.get(catId)
+      stat.totalQuestions += 1
+      stat.totalCorrect += a.isCorrect ? 1 : 0
+      stat.totalScore += a.score || 0
     })
+
+    const result = Array.from(statsMap.values()).map(s => ({
+      category: s.category,
+      completed: s.completedQuizzes, // 완료한 퀴즈 수
+      correctRate: s.totalQuestions > 0 ? Math.round((s.totalCorrect / s.totalQuestions) * 100) : 0,
+      totalQuestions: s.totalQuestions,
+      totalScore: s.totalScore
+    }))
+
     res.json(result)
   } catch (e) {
     console.error(e)
-    res.status(500).json({error: "Server error"})
+    res.status(500).json({ error: "Server error" })
   }
 })
 
