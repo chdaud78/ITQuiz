@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router'
 
 import { auth } from '@/api/auth.js'
+import InputForm from '@/components/InputForm.jsx'
 import { ROUTES } from '@/lib/routes.js'
 
 export default function Register() {
@@ -64,48 +65,44 @@ export default function Register() {
         <div className="flex flex-col">
           <form action="" onSubmit={onSubmit}>
             <div className="flex flex-col mb-4">
-              <label htmlFor="">이름</label>
-              <input
-                className="border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400 focus:border-blue-400 outline-none transition"
+              <InputForm
+                text="이름"
                 name="name"
                 value={form.name}
                 onChange={onChange}
                 type="text"
+                error={errors.name}
               />
-              {errors.name ? <p className="text-sm text-red-500">{errors.name}</p> : ''}
             </div>
             <div className="flex flex-col mb-4">
-              <label htmlFor="">이메일</label>
-              <input
-                className="border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400 focus:border-blue-400 outline-none transition"
+              <InputForm
+                text="이메일"
                 name="email"
                 value={form.email}
                 onChange={onChange}
                 type="text"
+                error={errors.email}
               />
-              {errors.email ? <p className="text-sm text-red-500">{errors.email}</p> : ''}
             </div>
             <div className="flex flex-col mb-4">
-              <label htmlFor="">비밀번호</label>
-              <input
-                className="border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400 focus:border-blue-400 outline-none transition"
+              <InputForm
+                text="비밀번호"
                 name="password"
                 value={form.password}
                 onChange={onChange}
                 type="password"
+                error={errors.password}
               />
-              {errors.password ? <p className="text-sm text-red-500">{errors.password}</p> : ''}
             </div>
             <div className="flex flex-col mb-4">
-              <label htmlFor="">비밀번호 확인</label>
-              <input
-                className="border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400 focus:border-blue-400 outline-none transition"
+              <InputForm
+                text="비밀번호 확인"
                 name="confirm"
                 value={form.confirm}
                 onChange={onChange}
                 type="password"
+                error={errors.confirm}
               />
-              {errors.confirm ? <p className="text-sm text-red-500">{errors.confirm}</p> : ''}
             </div>
             <button className="w-full py-3 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-lg shadow-md transition duration-200">
               회원 가입
