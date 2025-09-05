@@ -2,19 +2,24 @@ import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router'
 
 import { quizApi } from '@/api/quiz.js'
-import QuizCard from '@/components/QuizCard.jsx'
+import QuizCard from '@/components/quiz/QuizCard.jsx'
+import QuizProgress from '@/components/quiz/QuizProgress.jsx'
 import QuizTimer from '@/components/QuizTimer.jsx'
 
 export default function Quiz() {
-  const { sessionId } = useParams()
+  // navigate
   const navigate = useNavigate()
-
+  // session
+  const { sessionId } = useParams()
   const [session, setSession] = useState(null)
   const [currentIndex, setCurrentIndex] = useState(0)
+  // answer
   const [showAnswer, setShowAnswer] = useState(false)
   const [answers, setAnswers] = useState([])
+  // time
   const [timeTaken, setTimeTaken] = useState(0)
 
+  /* Session 가져오기 */
   useEffect(() => {
     async function fetchSession() {
       const res = await quizApi.getSession(sessionId)
@@ -29,6 +34,7 @@ export default function Quiz() {
 
   const currentQuiz = session.quizzes[currentIndex]
 
+  /* 정답 제출 */
   const handleSubmit = async (answer) => {
     const res = await quizApi.submit(sessionId, { answer, timeTaken }) // timeTaken 계산 가능
     setAnswers([
@@ -43,6 +49,7 @@ export default function Quiz() {
     setShowAnswer(true)
   }
 
+  /* 다음 퀴즈로 넘어가기 */
   const nextQuiz = () => {
     if (currentIndex + 1 >= session.quizzes.length) {
       navigate(`/quiz/result/${sessionId}`)
@@ -56,24 +63,7 @@ export default function Quiz() {
     <div className="container mx-auto p-4 space-y-6">
       {/* 진행률 */}
       <div className="flex justify-between">
-        <div className="w-full">
-          <div className="flex justify-between">
-            <p className="text-sm text-gray-500">
-              문제 {currentIndex + 1}/{session.quizzes.length}
-            </p>
-            <p className="text-sm text-gray-500">
-              {Math.round(((currentIndex + 1) / session.quizzes.length) * 100)}% 완료
-            </p>
-          </div>
-          <div className="mt-2">
-            <div className="w-full bg-purple-400 rounded-full h-2.5">
-              <div
-                className="bg-blue-600 h-2.5 rounded-full"
-                style={{ width: `${((currentIndex + 1) / session.quizzes.length) * 100}%` }}
-              />
-            </div>
-          </div>
-        </div>
+        <QuizProgress currentIndex={currentIndex} total={session.quizzes.length} />
         <QuizTimer onTimeUpdate={setTimeTaken} />
       </div>
       <QuizCard

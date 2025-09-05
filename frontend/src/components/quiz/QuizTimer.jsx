@@ -1,8 +1,9 @@
 import { Clock } from 'lucide-react'
 import { useState, useEffect } from 'react'
 
-export default function QuizTimer({ onTimeUpdate }) {
+export default function QuizTimer() {
   const [seconds, setSeconds] = useState(0)
+  const [timeTaken, setTimeTaken] = useState(0)
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -13,8 +14,8 @@ export default function QuizTimer({ onTimeUpdate }) {
   }, [])
 
   useEffect(() => {
-    onTimeUpdate?.(seconds)
-  }, [seconds, onTimeUpdate])
+    timeTaken?.(seconds)
+  }, [seconds, timeTaken])
 
   const formatTime = (sec) => {
     const m = Math.floor(sec / 60)

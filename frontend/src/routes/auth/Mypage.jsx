@@ -3,19 +3,20 @@ import { useEffect, useState } from 'react'
 
 import { me } from '@/api/me.js'
 import { token } from '@/api/token.js'
-import CategoryModal from '@/components/CategoryModal.jsx'
-import CategoryStatusCard from '@/components/CategoryStatusCard.jsx'
-import HistoryCard from '@/components/HistoryCard.jsx'
-import QuizModal from '@/components/QuizModal.jsx'
-import StatusCard from '@/components/StatusCard.jsx'
+import CategoryModal from '@/components/category/CategoryModal.jsx'
+import CategoryStatusCard from '@/components/category/CategoryStatusCard.jsx'
+import QuizModal from '@/components/quiz/QuizModal.jsx'
+import HistoryCard from '@/components/status/HistoryCard.jsx'
+import MyProfileCard from '@/components/status/MyProfileCard.jsx'
+import StatusCard from '@/components/status/StatusCard.jsx'
 
 export default function Mypage() {
+  /* Token */
   const [hasToken, setHasToken] = useState(Boolean(token.get()))
-  const [menuStatus, setMenuStatus] = useState('history')
+  /* Modal Show */
   const [showCategoryModal, setShowCategoryModal] = useState(false)
   const [showQuizModal, setShowQuizModal] = useState(false)
-
-  const [myProfile, setMyProfile] = useState({ id: '', name: '', email: '', createdAt: '' })
+  /* Status */
   const [myStats, setMyStats] = useState({
     totalScore: 0,
     completedQuiz: 0,
@@ -23,29 +24,14 @@ export default function Mypage() {
     avgCorrectRate: 0,
   })
 
+  /* Menu Show */
+  const [menuStatus, setMenuStatus] = useState('history')
   const onClickMenu = (menu) => {
     setMenuStatus(menu)
   }
 
+  /* Get Status */
   useEffect(() => {
-    async function fetchMe() {
-      if (!hasToken) {
-        return
-      }
-      try {
-        const res = await me.get()
-
-        setMyProfile({
-          id: res?.data.id || '',
-          name: res?.data.name || '',
-          email: res?.data.email || '',
-          createdAt: res?.data.createdAt || '',
-        })
-      } catch (err) {
-        console.error(err)
-      }
-    }
-
     async function fetchStats() {
       if (!hasToken) {
         return
@@ -63,18 +49,8 @@ export default function Mypage() {
         console.error(err)
       }
     }
-
-    fetchMe()
     fetchStats()
   }, [hasToken])
-
-  const formatDate = (date) => {
-    const d = new Date(date)
-    const yyyy = d.getFullYear()
-    const mm = String(d.getMonth() + 1).padStart(2, '0')
-    const dd = String(d.getDate()).padStart(2, '0')
-    return `${yyyy}-${mm}-${dd}`
-  }
 
   return (
     <div className="container mx-auto p-4 space-y-6">
@@ -94,16 +70,7 @@ export default function Mypage() {
         </button>
       </div>
       {/* 이름 */}
-      <div className="border-1 p-5 flex items-center">
-        <div className="border-1 rounded-full p-5 mr-5">
-          <img className="w-full" src="./vite.svg" alt="프로필 이미지" />
-        </div>
-        <div>
-          <p className="font-bold text-xl">{myProfile.name}</p>
-          <p className="text-sm text-gray-500 mt-2">{myProfile.email}</p>
-          <p className="text-sm text-gray-500 mt-1">가입일 : {formatDate(myProfile.createdAt)}</p>
-        </div>
-      </div>
+      <MyProfileCard hasToken={hasToken} />
       {/* 전체 통계 */}
       <div className="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
         <StatusCard icon={Trophy} value={myStats.totalScore} text="총 점수" />
