@@ -4,7 +4,7 @@ import { useNavigate, useParams } from 'react-router'
 import { quizApi } from '@/api/quiz.js'
 import QuizCard from '@/components/quiz/QuizCard.jsx'
 import QuizProgress from '@/components/quiz/QuizProgress.jsx'
-import QuizTimer from '@/components/QuizTimer.jsx'
+import QuizTimer from '@/components/quiz/QuizTimer.jsx'
 
 export default function Quiz() {
   // navigate

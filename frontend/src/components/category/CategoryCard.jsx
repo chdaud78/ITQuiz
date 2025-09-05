@@ -58,26 +58,25 @@ export default function CategoryCard() {
       })
   }, [])
 
-  /* 시작하기 버튼 이벤트 */
-  const quizStart = async () => {
-    try {
-      const res = await categoryApi.startSession({ categoryId: category._id })
-      const sessionId = res.data._id
-      if (!sessionId || !res.data.quizIds || res.data.quizIds.length === 0) {
-        alert('퀴즈가 존재하지 않습니다.')
-        return
-      }
-      navigate(`/quiz/${sessionId}`)
-    } catch (err) {
-      console.error(err)
-    }
-  }
-
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10 mt-10">
       {categories.map((category, index) => {
         // IconComponent
         const IconComponent = icons[index % icons.length]
+        /* 시작하기 버튼 이벤트 */
+        const quizStart = async () => {
+          try {
+            const res = await categoryApi.startSession({ categoryId: category._id })
+            const sessionId = res.data._id
+            if (!sessionId || !res.data.quizIds || res.data.quizIds.length === 0) {
+              alert('퀴즈가 존재하지 않습니다.')
+              return
+            }
+            navigate(`/quiz/${sessionId}`)
+          } catch (err) {
+            console.error(err)
+          }
+        }
 
         return (
           <div
