@@ -17,6 +17,7 @@ export default function CategoryStatusCard() {
     fetchStats()
   }, [])
 
+  /* 마이페이지 카테고리 별 통계 */
   return (
     <div>
       {stats.map((stat) => (

@@ -25,6 +25,7 @@ export default function HistoryCard() {
     return `${yyyy}-${mm}-${dd}`
   }
 
+  /* 마이페이지 최근 퀴즈 기록 */
   return (
     <div className="mt-5 p-5 border-1 rounded-sm">
       <h2 className="text-xl font-bold">✏️ 최근 퀴즈 기록</h2>

@@ -24,6 +24,7 @@ export default function QuizTimer({ onTimeUpdate }) {
     return `${m}:${s}`
   }
 
+  /* 퀴즈 타이머 */
   return (
     <div className="ml-5 flex items-center">
       <Clock className="text-blue-500" />

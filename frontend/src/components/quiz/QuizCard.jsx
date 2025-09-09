@@ -32,10 +32,12 @@ export default function QuizCard({ quiz, onSubmit, showAnswer, nextQuiz }) {
     nextQuiz()
   }
 
+  /* 퀴즈 풀이 카드 */
   return (
     <div className="mt-5 p-5 border-1 rounded-sm">
       <h3 className="text-xl font-bold text-center">{quiz.context}</h3>
       <div className="mt-5 space-y-3">
+        {/* 객관식 */}
         {quiz.type === 'multiple' &&
           quiz.options.map((opt, idx) => {
             const isSelected = selected.includes(opt._id)
@@ -57,6 +59,7 @@ export default function QuizCard({ quiz, onSubmit, showAnswer, nextQuiz }) {
               </div>
             )
           })}
+        {/* 주관식 */}
         {quiz.type === 'subjective' && (
           <input
             type="text"
@@ -75,6 +78,7 @@ export default function QuizCard({ quiz, onSubmit, showAnswer, nextQuiz }) {
         </div>
       )}
 
+      {/* 정답 */}
       {showAnswer && (
         <div className="mt-4">
           {quiz.type === 'multiple' && (

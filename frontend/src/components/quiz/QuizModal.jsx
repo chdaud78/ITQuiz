@@ -15,6 +15,7 @@ export default function QuizModal({ setShow }) {
     maxScore: 10,
   })
 
+  /* 카테고리 가져오기 */
   useEffect(() => {
     categoryApi
       .get()
@@ -28,6 +29,7 @@ export default function QuizModal({ setShow }) {
 
   const onChange = (e) => setForm((f) => ({ ...f, [e.target.name]: e.target.value }))
 
+  /* 객관식 옵션 함수 */
   const onChangeOptionText = (index, value) => {
     setForm((f) => {
       const newOptions = [...f.options]
@@ -36,6 +38,7 @@ export default function QuizModal({ setShow }) {
     })
   }
 
+  /* 객관식 정답 함수 */
   const onChangeOptionCorrect = (index, checked) => {
     setForm((f) => {
       const newOptions = [...f.options]
@@ -44,6 +47,7 @@ export default function QuizModal({ setShow }) {
     })
   }
 
+  /* 퀴즈 추가 */
   const handleQuiz = (e) => {
     e.preventDefault()
 
@@ -90,6 +94,7 @@ export default function QuizModal({ setShow }) {
             />
           </div>
           <div>
+            {/* 카테고리 선택 */}
             <label className="block font-medium mb-1">퀴즈 카테고리</label>
             <select
               name="category"
@@ -105,6 +110,7 @@ export default function QuizModal({ setShow }) {
             </select>
           </div>
           <div>
+            {/* 주관식, 객관식 종류 선택 */}
             <label className="block font-medium mb-1">퀴즈 종류</label>
             <select
               name="type"
@@ -116,6 +122,7 @@ export default function QuizModal({ setShow }) {
               <option value="subjective">주관식</option>
             </select>
           </div>
+          {/* 객관식 */}
           {form.type === 'multiple' && (
             <div>
               <label className="block font-medium mb-1">퀴즈 객관식 문제 구성</label>
@@ -142,6 +149,7 @@ export default function QuizModal({ setShow }) {
               </div>
             </div>
           )}
+          {/* 주관식 */}
           {form.type === 'subjective' && (
             <div>
               <label className="block font-medium mb-1">퀴즈 주관식 문제 구성</label>

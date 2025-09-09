@@ -78,6 +78,7 @@ export default function CategoryCard() {
           }
         }
 
+        /* 카테고리 카드 */
         return (
           <div
             className={`p-5 border rounded-sm ${bgColors[index]} ${brColors[index]}`}

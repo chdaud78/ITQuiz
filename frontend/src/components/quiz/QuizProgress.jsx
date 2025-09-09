@@ -1,6 +1,7 @@
 const QuizProgress = ({ currentIndex, total }) => {
   const percentage = Math.round(((currentIndex + 1) / total) * 100)
 
+  /* 퀴즈 풀이 progress bar */
   return (
     <div className="w-full">
       <div className="flex justify-between">

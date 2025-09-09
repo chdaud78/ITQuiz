@@ -1,4 +1,5 @@
-export default function StatusCard ({icon:Icon, value, text}) {
+/* 마이페이지 스테이터스 */
+export default function StatusCard({ icon: Icon, value, text }) {
   return (
     <div className="p-5 bg-gray-100 flex flex-col justify-center items-center rounded-sm">
       <Icon className="text-blue-500" />

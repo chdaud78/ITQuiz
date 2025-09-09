@@ -34,6 +34,7 @@ const MyProfileCard = ({ hasToken }) => {
     return `${yyyy}-${mm}-${dd}`
   }
 
+  /* 프로필 카드 */
   return (
     <div className="border-1 p-5 flex items-center">
       <div className="border-1 rounded-full p-5 mr-5">

@@ -14,6 +14,7 @@ const QuizResultCard = () => {
     })
   }, [sessionId])
 
+  /* 퀴즈 풀이 결과 */
   return (
     <>
       <h2 className="mt-5 font-bold text-xl">퀴즈 완료</h2>
