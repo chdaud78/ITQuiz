@@ -4,6 +4,7 @@ export const ROUTES = {
     LOGIN: '/login',
     REGISTER: '/register',
     MYPAGE: '/mypage',
+    MYPROFILE: '/myprofile',
   },
   QUIZ: {
     ROOT: 'quiz',

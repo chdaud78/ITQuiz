@@ -6,6 +6,7 @@ import RootLayout from '@/layouts/RootLayout.jsx'
 import { ROUTES } from '@/lib/routes.js'
 import Login from '@/routes/auth/Login.jsx'
 import Mypage from '@/routes/auth/Mypage.jsx'
+import MyProfile from '@/routes/auth/MyProfile.jsx'
 import Register from '@/routes/auth/Register.jsx'
 import Home from '@/routes/Home.jsx'
 import NotFound from '@/routes/NotFound.jsx'
@@ -23,6 +24,7 @@ const AppRouters = () => (
         <Route element={<PrivateRoute />}>
           <Route index element={<Home />} />
           <Route path={ROUTES.AUTH.MYPAGE} element={<Mypage />} />
+          <Route path={ROUTES.AUTH.MYPROFILE} element={<MyProfile />} />
           <Route path={`${ROUTES.QUIZ.ROOT}/:sessionId`} element={<Quiz />} />
           <Route path={`${ROUTES.QUIZ.RESULT}/:sessionId`} element={<QuizResult />} />
         </Route>
