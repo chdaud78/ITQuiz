@@ -15,6 +15,7 @@ export default function MyProfile() {
   const [hasToken, setHasToken] = useState(Boolean(token.get()))
   const [pw, setPw] = useState({ currentPassword: '', newPassword: '' })
 
+  /* profile 정보 가져오기 */
   useEffect(() => {
     async function fetchMe() {
       if (!hasToken) {
@@ -37,6 +38,7 @@ export default function MyProfile() {
     fetchMe()
   }, [hasToken])
 
+  /* Profile 업데이트 */
   const handleProfile = async () => {
     await me
       .patchMe(myProfile)
@@ -48,6 +50,7 @@ export default function MyProfile() {
       })
   }
 
+  /* 비밀번호 업데이트 */
   const handlePassword = async () => {
     await me
       .changePassword(pw)
@@ -63,9 +66,10 @@ export default function MyProfile() {
     <div className="w-full">
       <div className="mx-auto w-full max-w-3xl space-y-6">
         <header className="flex items-center justify-between">
-          <h1 className="text-2xl font-bold">마이페이지</h1>
+          <h1 className="text-2xl font-bold">정보 변경</h1>
         </header>
 
+        {/* 프로필 변경 Section */}
         <section className="rounded-2xl bg-white p-6 shadow-sm">
           <h2 className="mb-4 text-lg font-semibold">내 정보</h2>
           <div>
@@ -114,6 +118,7 @@ export default function MyProfile() {
           </div>
         </section>
 
+        {/* 비밀번호 변경 Section */}
         <section className="rounded-2xl bg-white p-6 shadow-sm">
           <h2 className="mb-4 text-lg font-semibold">비밀번호 변경</h2>
 
