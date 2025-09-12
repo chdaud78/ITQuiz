@@ -1,4 +1,15 @@
-import { Brain, History, Trophy, Activity, Book, Library, Star, Files, Laptop } from 'lucide-react'
+import {
+  Brain,
+  History,
+  Trophy,
+  Activity,
+  Menu,
+  Book,
+  Library,
+  Star,
+  Files,
+  Laptop,
+} from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
@@ -58,6 +69,28 @@ export default function CategoryCard() {
       })
   }, [])
 
+  /* 카테고리 상호작용 */
+  // 메뉴 클릭
+  const [showMenu, setShowMenu] = useState(false)
+  const onClickMenu = (id) => {
+    setShowMenu(showMenu === id ? null : id)
+  }
+
+  // 삭제
+  const deleteCategory = (id) => {
+    categoryApi
+      .delete(id)
+      .then((res) => {
+        if (res.status === 200) {
+          alert('삭제 되었습니다.')
+          setCategory((prev) => prev.filter((c) => c._id !== id))
+        }
+      })
+      .catch((e) => {
+        console.error(e)
+      })
+  }
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10 mt-10">
       {categories.map((category, index) => {
@@ -88,12 +121,31 @@ export default function CategoryCard() {
               <div className="rounded-sm p-3 bg-white">
                 <IconComponent className="text-red-200 w-6 h-6" />
               </div>
-              <span className="text-sm text-gray-300 bg-white block px-3 py-1 rounded-xl">
-                총 {category.quizCount}문제
-              </span>
+              <div
+                onClick={() => onClickMenu(category._id)}
+                className="relative flex cursor-pointer gap-3 justify-center items-center text-sm text-gray-300 bg-white block px-3 py-1 rounded-xl"
+              >
+                <p>총 {category.quizCount}문제</p>
+                <Menu />
+                {showMenu === category._id ? (
+                  <div className="absolute -bottom-20 bg-white p-3 rounded-lg right-0">
+                    <ul>
+                      <li className="hover:bg-gray-300 hover:text-white">수정하기</li>
+                      <li
+                        onClick={() => deleteCategory(category._id)}
+                        className="mt-3 hover:bg-gray-300 hover:text-white"
+                      >
+                        삭제하기
+                      </li>
+                    </ul>
+                  </div>
+                ) : (
+                  ''
+                )}
+              </div>
             </div>
 
-            <h3 className="font-bold mt-5">{category.name}</h3>
+            <h3 className="font-bold mt-5 line-clamp-1">{category.name}</h3>
             <p className="flex-1 text-gray-500 mt-3 line-clamp-3 min-h-[4.5rem]">
               {category.description}
             </p>

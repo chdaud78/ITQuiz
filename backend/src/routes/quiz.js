@@ -52,7 +52,7 @@ router.get("/categories", async (req, res) => {
   }
 })
 
-router.delete("/category:id", async (req, res) => {
+router.delete("/category/:id", async (req, res) => {
   try {
     const {id} = req.params;
 
@@ -60,6 +60,17 @@ router.delete("/category:id", async (req, res) => {
     if(!category) {
       return res.status(404).json({error: "category not found"})
     }
+
+    const quizzes = await Quiz.find({category: id})
+    const quizIds = quizzes.map(q => q._id)
+
+    await Quiz.deleteMany({category: id})
+
+    await QuizSession.updateMany(
+      { quizIds: { $in: quizIds } },
+      { $pull: { quizIds: { $in: quizIds }, attempts: { quiz: { $in: quizIds } } } }
+    );
+    await QuizAttempt.deleteMany({ quiz: { $in: quizIds } });
 
     await Category.findByIdAndDelete(id);
 
