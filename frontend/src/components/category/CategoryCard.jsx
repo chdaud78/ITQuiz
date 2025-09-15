@@ -14,6 +14,7 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { categoryApi } from '@/api/category.js'
+import CategoryModify from '@/components/category/CategoryModify.jsx'
 
 export default function CategoryCard() {
   const navigate = useNavigate()
@@ -71,9 +72,23 @@ export default function CategoryCard() {
 
   /* 카테고리 상호작용 */
   // 메뉴 클릭
-  const [showMenu, setShowMenu] = useState(false)
+  const [showMenu, setShowMenu] = useState('')
   const onClickMenu = (id) => {
     setShowMenu(showMenu === id ? null : id)
+  }
+
+  // 수정 클릭
+  const [showModify, setShowModify] = useState(false)
+  const [data, setData] = useState(null)
+  const onClickModify = (item) => {
+    setShowModify(!showModify)
+    setData(item)
+    setShowMenu(null)
+  }
+
+  // 수정 완료 후 카테고리 목록 업데이트
+  const handleUpdateCategory = (updated) => {
+    setCategory((prev) => prev.map((c) => (c._id === updated._id ? updated : c)))
   }
 
   // 삭제
@@ -130,7 +145,12 @@ export default function CategoryCard() {
                 {showMenu === category._id ? (
                   <div className="absolute -bottom-20 bg-white p-3 rounded-lg right-0">
                     <ul>
-                      <li className="hover:bg-gray-300 hover:text-white">수정하기</li>
+                      <li
+                        onClick={() => onClickModify(category)}
+                        className="hover:bg-gray-300 hover:text-white"
+                      >
+                        수정하기
+                      </li>
                       <li
                         onClick={() => deleteCategory(category._id)}
                         className="mt-3 hover:bg-gray-300 hover:text-white"
@@ -159,6 +179,10 @@ export default function CategoryCard() {
           </div>
         )
       })}
+      {/* 카테고리 수정 Modal */}
+      {showModify && (
+        <CategoryModify setShow={setShowModify} data={data} onUpdated={handleUpdateCategory} />
+      )}
     </div>
   )
 }

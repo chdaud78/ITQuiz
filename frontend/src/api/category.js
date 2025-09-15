@@ -6,4 +6,5 @@ export const categoryApi = {
   startSession: async (payload, opts) =>
     await api.post('/api/quiz/session/start', payload, { auth: false }),
   delete: async (id) => await api.delete(`/api/category/${id}`),
+  put: (id, payload) => api.put(`/api/category/${id}`, payload),
 }
