@@ -174,6 +174,38 @@ router.delete('/quiz/:id', async(req, res) => {
   }
 })
 
+// 퀴즈 수정
+router.put("/quiz/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { category, type, context, answer, options, maxScore } = req.body;
+
+    const quiz = await Quiz.findById(id);
+    if (!quiz) return res.status(404).json({ error: "Quiz not found" });
+
+    // 필드 업데이트
+    if (category) quiz.category = category;
+    if (type) quiz.type = type;
+    if (context) quiz.context = context;
+    if (maxScore !== undefined) quiz.maxScore = maxScore;
+
+    if (type === "subjective") {
+      quiz.answer = answer;
+      quiz.options = [];
+    } else if (type === "multiple") {
+      quiz.options = options || [];
+      quiz.answer = undefined;
+    }
+
+    await quiz.save();
+
+    res.status(200).json(quiz);
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
 // 퀴즈 시작
 router.post("/quiz/session/start", requireAuth, async (req, res) => {
   try {

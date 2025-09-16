@@ -1,5 +1,6 @@
 import { Trophy, History, Brain, Calendar } from 'lucide-react'
 import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 
 import { me } from '@/api/me.js'
 import { token } from '@/api/token.js'
@@ -68,6 +69,12 @@ export default function Mypage() {
         >
           문제 추가
         </button>
+        <Link
+          to="/quiz/list"
+          className="border-1 border-gray-500 px-3 py-1 rounded-sm bg-gray-300 text-sm cursor-pointer"
+        >
+          퀴즈 관리
+        </Link>
       </div>
       {/* 이름 */}
       <MyProfileCard hasToken={hasToken} />

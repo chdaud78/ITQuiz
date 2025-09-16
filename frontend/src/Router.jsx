@@ -12,6 +12,7 @@ import Home from '@/routes/Home.jsx'
 import NotFound from '@/routes/NotFound.jsx'
 import Quiz from '@/routes/quiz/Quiz.jsx'
 import QuizResult from '@/routes/quiz/QuizResult.jsx'
+import QuizList from '@/routes/quiz/QuizList.jsx'
 
 const AppRouters = () => (
   <BrowserRouter>
@@ -25,6 +26,7 @@ const AppRouters = () => (
           <Route index element={<Home />} />
           <Route path={ROUTES.AUTH.MYPAGE} element={<Mypage />} />
           <Route path={ROUTES.AUTH.MYPROFILE} element={<MyProfile />} />
+          <Route path={ROUTES.QUIZ.LIST} element={<QuizList />} />
           <Route path={`${ROUTES.QUIZ.ROOT}/:sessionId`} element={<Quiz />} />
           <Route path={`${ROUTES.QUIZ.RESULT}/:sessionId`} element={<QuizResult />} />
         </Route>

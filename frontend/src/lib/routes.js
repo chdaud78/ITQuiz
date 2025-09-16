@@ -8,6 +8,7 @@ export const ROUTES = {
   },
   QUIZ: {
     ROOT: 'quiz',
+    LIST: 'quiz/list',
     RESULT: 'quiz/result',
   },
   NOT_FOUND: '*',

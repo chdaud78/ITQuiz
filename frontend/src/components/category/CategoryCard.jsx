@@ -93,6 +93,8 @@ export default function CategoryCard() {
 
   // 삭제
   const deleteCategory = (id) => {
+    if (!confirm('정말 삭제하시겠습니까?')) return
+
     categoryApi
       .delete(id)
       .then((res) => {
