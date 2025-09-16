@@ -131,7 +131,19 @@ router.post("/quiz", async (req, res) => {
 
     res.status(201).json(quiz)
   } catch (e) {
-    console.log(e)
+    console.error(e)
+    res.status(500).json({error: "Server error"})
+  }
+})
+
+// 모든 퀴즈 가져오기
+router.get("/quizzes", async (req, res) => {
+  try {
+    const quizzes = await Quiz.find().populate("category", "name description")
+
+    res.status(200).json(quizzes)
+  } catch (e) {
+    console.error(e)
     res.status(500).json({error: "Server error"})
   }
 })
