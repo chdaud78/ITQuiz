@@ -139,9 +139,35 @@ router.post("/quiz", async (req, res) => {
 // 모든 퀴즈 가져오기
 router.get("/quizzes", async (req, res) => {
   try {
-    const quizzes = await Quiz.find().populate("category", "name description")
+    const quizzes = await Quiz.find().populate("category", "name description").sort({createdAt: -1})
 
     res.status(200).json(quizzes)
+  } catch (e) {
+    console.error(e)
+    res.status(500).json({error: "Server error"})
+  }
+})
+
+// 퀴즈 삭제
+router.delete('/quiz/:id', async(req, res) => {
+  try {
+    const {id} = req.params;
+
+    const quiz = await Quiz.findOne({_id: id});
+    if(!quiz) {
+      return res.status(404).json({error: "Quiz not found"})
+    }
+
+    await QuizSession.updateMany(
+      {quizIds: id},
+      {$pull: {quizIds: id, attempts: {quiz:id}}}
+    )
+
+    await QuizAttempt.deleteMany({quiz: id})
+
+    await Quiz.findByIdAndDelete(id)
+
+    res.status(200).json({message: "Quiz deleted successfully"})
   } catch (e) {
     console.error(e)
     res.status(500).json({error: "Server error"})
