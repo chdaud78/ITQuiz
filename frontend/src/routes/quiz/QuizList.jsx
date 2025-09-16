@@ -1,8 +1,11 @@
 import { useEffect, useState } from 'react'
 import { quizApi } from '@/api/quiz.js'
+import QuizModify from '@/components/quiz/QuizModify.jsx'
 
 const QuizList = () => {
   const [quizList, setQuizList] = useState([])
+  const [quiz, setQuiz] = useState({})
+  const [showModify, setShowModify] = useState(false)
 
   useEffect(() => {
     quizApi
@@ -21,7 +24,10 @@ const QuizList = () => {
     }
   }
 
-  const handleEdit = (quiz) => {}
+  const handleEdit = (quiz) => {
+    setQuiz(quiz)
+    setShowModify(true)
+  }
 
   return (
     <div className="p-6 grid gap-3">
@@ -82,6 +88,16 @@ const QuizList = () => {
           </div>
         </div>
       ))}
+      {/*<TODO> 수정 후 즉시 업데이트 필요*/}
+      {showModify && (
+        <QuizModify
+          quiz={quiz}
+          setShowModify={setShowModify}
+          onUpdated={(updatedQuiz) =>
+            setQuizList((prev) => prev.map((q) => (q.id === updatedQuiz._id ? updatedQuiz : q)))
+          }
+        />
+      )}
     </div>
   )
 }
