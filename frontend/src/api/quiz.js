@@ -1,7 +1,7 @@
 import { api } from '@/api/http.js'
 
 export const quizApi = {
-  getList: () => api.get('/api/quizzes'),
+  getList: (params = {}) => api.get('/api/quizzes', { params }),
   delete: (quizId) => api.delete(`/api/quiz/${quizId}`),
   update: (quizId, payload) => api.put(`/api/quiz/${quizId}`, payload),
   getSession: (sessionId) => api.get(`/api/quiz/session/${sessionId}`),

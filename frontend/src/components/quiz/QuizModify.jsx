@@ -4,28 +4,29 @@ import { useEffect, useState } from 'react'
 import { categoryApi } from '@/api/category.js'
 import { quizApi } from '@/api/quiz.js'
 
-const QuizModify = ({ quiz, setShowModify, onUpdated }) => {
-  const [categories, setCategory] = useState([])
+const QuizModify = ({ categories, quiz, setShowModify, onUpdated }) => {
   const [form, setForm] = useState({
     context: '',
     category: [],
     type: '',
-    options: Array(5).fill({ text: '', isCorrect: false }),
+    options: Array.from({ length: 5 }, () => ({ text: '', isCorrect: false })),
     answer: '',
     maxScore: 10,
   })
 
-  /* 카테고리 가져오기 */
   useEffect(() => {
-    categoryApi
-      .get()
-      .then((res) => {
-        setCategory(res.data)
+    if (quiz) {
+      setForm({
+        context: quiz.context || '',
+        category: quiz.category || {},
+        type: quiz.type || '',
+        options: quiz.options?.length
+          ? quiz.options
+          : Array.from({ length: 5 }, () => ({ text: '', isCorrect: false })),
+        answer: quiz.answer || '',
+        maxScore: quiz.maxScore || 10,
       })
-      .catch((e) => {
-        console.error(e)
-      })
-    setForm(quiz)
+    }
   }, [quiz])
 
   const onChange = (e) => setForm((f) => ({ ...f, [e.target.name]: e.target.value }))
@@ -63,7 +64,7 @@ const QuizModify = ({ quiz, setShowModify, onUpdated }) => {
       alert('수정 중 오류가 발생했습니다.')
     }
   }
-
+  console.log(categories)
   return (
     <div
       className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2

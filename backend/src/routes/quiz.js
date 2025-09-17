@@ -139,7 +139,15 @@ router.post("/quiz", async (req, res) => {
 // 모든 퀴즈 가져오기
 router.get("/quizzes", async (req, res) => {
   try {
-    const quizzes = await Quiz.find().populate("category", "name description").sort({createdAt: -1})
+    const { category, q } = req.query
+    const filter = {}
+
+    if (category) filter.category = category
+    if (q) filter.context = { $regex: q, $options: "i" }
+
+    const quizzes = await Quiz.find(filter)
+    .populate("category", "name description")
+    .sort({ createdAt: -1 })
 
     res.status(200).json(quizzes)
   } catch (e) {
