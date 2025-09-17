@@ -12,7 +12,7 @@ const QuizList = () => {
       .getList()
       .then((res) => setQuizList(res.data))
       .catch((e) => console.error(e))
-  }, [])
+  }, [quiz])
 
   const handleDelete = async (id) => {
     if (!confirm('정말 삭제하시겠습니까?')) return
@@ -93,9 +93,9 @@ const QuizList = () => {
         <QuizModify
           quiz={quiz}
           setShowModify={setShowModify}
-          onUpdated={(updatedQuiz) =>
-            setQuizList((prev) => prev.map((q) => (q.id === updatedQuiz._id ? updatedQuiz : q)))
-          }
+          onUpdated={(updatedQuiz) => {
+            setQuizList((prev) => prev.map((q) => (q._id === updatedQuiz._id ? updatedQuiz : q)))
+          }}
         />
       )}
     </div>

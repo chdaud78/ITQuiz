@@ -199,7 +199,9 @@ router.put("/quiz/:id", async (req, res) => {
 
     await quiz.save();
 
-    res.status(200).json(quiz);
+    const populatedQuiz = await Quiz.findById(quiz._id).populate("category", "name description");
+
+    res.status(200).json(populatedQuiz);
   } catch (e) {
     console.error(e);
     res.status(500).json({ error: "Server error" });

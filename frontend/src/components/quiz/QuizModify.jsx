@@ -56,7 +56,8 @@ const QuizModify = ({ quiz, setShowModify, onUpdated }) => {
       const res = await quizApi.update(quiz._id, form)
       alert('퀴즈가 수정되었습니다.')
       setShowModify(false)
-      onUpdated && onUpdated(res.data)
+      console.log(res)
+      if (onUpdated) onUpdated(res.data)
     } catch (error) {
       console.error(error)
       alert('수정 중 오류가 발생했습니다.')
