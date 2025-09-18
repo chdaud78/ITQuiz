@@ -103,3 +103,5 @@ connectDB(mongoUri)
     console.error("❌ DB connect error", e);
     process.exit(1);
   });
+
+export default app
