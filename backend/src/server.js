@@ -89,19 +89,5 @@ if (!mongoUri) {
 }
 
 connectDB(mongoUri)
-  .then(() => {
-    app.listen(port, () => {
-      console.log(`🚀 http://localhost:${port}`);
-      if (allowlist.length) {
-        console.log(`CORS allowlist: ${allowlist.join(", ")}`);
-      } else {
-        console.warn("⚠️  CORS is disabled (no origins allowed). Set CORS_ORIGINS in .env.");
-      }
-    });
-  })
-  .catch((e) => {
-    console.error("❌ DB connect error", e);
-    process.exit(1);
-  });
 
 export default app
