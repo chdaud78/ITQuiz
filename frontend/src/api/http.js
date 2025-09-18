@@ -3,6 +3,8 @@ import axios from 'axios'
 import { token } from '@/api/token.js'
 
 const BASEURL = import.meta.env.VITE_API_URL ? import.meta.env.VITE_API_URL : window.location.origin
+console.log('VITE_API_URL =', import.meta.env.VITE_API_URL)
+console.log('BASEURL =', BASEURL)
 export const api = axios.create({
   baseURL: BASEURL,
   timeout: 10000,
